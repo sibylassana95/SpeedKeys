@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeedKeys - Test de vitesse de frappe minimaliste</title>
+    <meta name="description" content="Un test de vitesse de frappe minimaliste et élégant en français.">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/9343e714ed.js" crossorigin="anonymous"></script>
+</head>
+<body class="min-h-screen font-['Poppins'] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 transition-colors duration-200">
+    <div class="min-h-screen">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
+            <div class="flex justify-between items-center py-8">
+                <h1 class="text-2xl md:text-3xl font-bold text-primary hover:text-primary/80 transition-colors duration-200">
+                    SpeedKeys<span class="text-gray-400">.</span>
+                </h1>
+                <button id="theme-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 flex flex-col items-center justify-center py-8">
+                <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-transform duration-200">
+                    <input autofocus type="text" class="input-box opacity-0 absolute z-[-1]">
+                    <div class="text-box mb-8 bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
+                        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed"></p>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div id="timer" class="stat-box">
+                            <i class="fa-regular fa-clock mr-2"></i>
+                            <span>60</span>s
+                        </div>
+                        <div id="wpm" class="stat-box">
+                            <i class="fa-solid fa-gauge-high mr-2"></i>
+                            <span>0</span> MPM
+                        </div>
+                        <div id="cpm" class="stat-box">
+                            <i class="fa-solid fa-keyboard mr-2"></i>
+                            <span>0</span> CPM
+                        </div>
+                        <div id="error" class="stat-box">
+                            <i class="fa-solid fa-xmark mr-2"></i>
+                            <span>0</span>
+                        </div>
+                        <div id="correct" class="stat-box">
+                            <i class="fa-solid fa-check mr-2"></i>
+                            <span>0</span>
+                        </div>
+                        <button class="restart stat-box hover:bg-primary/10 active:bg-primary/20">
+                            <i class="fa-solid fa-rotate-right text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="py-6">
+                <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                        SpeedKeys est un test de vitesse de frappe minimaliste et élégant en français. Il vous permet de mesurer votre vitesse de frappe en mots par minute (MPM) et en caractères par minute (CPM), ainsi que votre précision. Essayez de taper le texte affiché aussi rapidement et précisément que possible, et voyez comment vous vous classez !
+                    </p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-gray-600 dark:text-gray-400">&copy; 2024 SpeedKeys</p>
+                    <a href="https://github.com/sibylassana95/SpeedKeys.git" target="_blank" 
+                       class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+                        <i class="fa-brands fa-github mr-2"></i>Github
+                    </a>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+   
+    
+
+   <!-- Modal de score -->
+<div id="score-modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Temps écoulé !</h2>
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-4xl font-bold text-primary" id="final-grade">A</span>
+                <span class="text-3xl font-bold text-gray-700 dark:text-gray-300">
+                    <span id="final-score">0</span><span class="text-lg">/100</span>
+                </span>
+            </div>
+        </div>
+        
+        <div class="space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-300">Vitesse :</span>
+                <span class="text-xl font-semibold text-primary"><span id="final-wpm">0</span> MPM</span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-300">Précision :</span>
+                <span class="text-xl font-semibold text-primary"><span id="final-accuracy">0</span>%</span>
+            </div>
+            
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-300">Caractères corrects :</span>
+                <span class="text-xl font-semibold text-green-500"><span id="final-correct">0</span></span>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-gray-600 dark:text-gray-300">Erreurs :</span>
+                <span class="text-xl font-semibold text-red-500"><span id="final-errors">0</span></span>
+            </div>
+        </div>
+
+        <button id="retry-btn" class="w-full mt-8 bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+            Réessayer
+        </button>
+    </div>
+</div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
