@@ -41,39 +41,17 @@ export function calculateFinalScore({
     // Bonus de précision
     const accuracyBonus = accuracy >= 98 ? 20 : accuracy >= 95 ? 10 : 0;
 
-    // Score final
-    const finalScore = Math.min(100, Math.max(0, baseScore + timeBonus + accuracyBonus));
 
-    // Grade basé sur le score final
-    const grade = getGrade(finalScore);
+   
+   
 
     return {
         wpm,
         accuracy,
         completion,
         timeBonus,
-        accuracyBonus,
-        finalScore,
-        grade
+        accuracyBonus
     };
 }
 
-/**
- * Détermine le grade en fonction du score
- * @param {number} score Le score final
- * @returns {string} Le grade obtenu
- */
-function getGrade(score) {
-    if (typeof score !== 'number') {
-        throw new Error('Le score doit être un nombre');
-    }
-    if (score >= 95) return 'S+';
-    if (score >= 90) return 'S';
-    if (score >= 85) return 'A+';
-    if (score >= 70) return 'A';
-    if (score >= 60) return 'B+';
-    if (score >= 50) return 'B';
-    if (score >= 40) return 'C+';
-    if (score >= 30) return 'C';
-    return 'D';
-}
+

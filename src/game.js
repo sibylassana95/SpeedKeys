@@ -97,7 +97,7 @@ export class TypingGame {
         document.getElementById('final-errors').textContent = this.errors;
         document.getElementById('final-score').textContent = finalScore.finalScore;
         document.getElementById('final-grade').textContent = finalScore.grade;
-        
+       
 
         modal.classList.remove('hidden');
         modal.classList.add('flex');
