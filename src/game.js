@@ -2,6 +2,12 @@ import { INITIAL_TIME, PARAGRAPHS } from './constants.js';
 import { getElements, initElements, updateStats } from './utils/dom.js';
 import { calculateStats } from './utils/stats.js';
 import { calculateFinalScore } from './utils/scoring.js';
+import { 
+    showModal, 
+    updateModalContent, 
+    updateModalTitle, 
+    updateRetryButton 
+} from './utils/modal.js';
 
 export class TypingGame {
     constructor() {
@@ -16,11 +22,11 @@ export class TypingGame {
         
         if (initElements()) {
             this.elements = getElements();
-            this.init();
+            this.initGame();
         }
     }
 
-    init() {
+    initGame() {
         this.initEventListeners();
         this.handleParagraph();
         this.updateDisplay();
@@ -42,8 +48,10 @@ export class TypingGame {
         
         if (retryBtn) {
             retryBtn.addEventListener('click', () => {
-                modal.classList.remove('flex');
-                modal.classList.add('hidden');
+                if (modal) {
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                }
                 this.resetGame();
             });
         }
@@ -78,7 +86,6 @@ export class TypingGame {
     }
 
     showScoreModal() {
-        const modal = document.getElementById('score-modal');
         const timeSpent = this.maxTime - this.timeLeft;
         
         const finalScore = calculateFinalScore({
@@ -90,19 +97,17 @@ export class TypingGame {
             textLength: this.currentText.length
         });
 
-        // Mise à jour du HTML de la modal
-        document.getElementById('final-wpm').textContent = finalScore.wpm;
-        document.getElementById('final-accuracy').textContent = finalScore.accuracy;
-        document.getElementById('final-correct').textContent = this.corrects;
-        document.getElementById('final-errors').textContent = this.errors;
-        document.getElementById('final-score').textContent = finalScore.finalScore;
-        document.getElementById('final-grade').textContent = finalScore.grade;
-       
+        const stats = calculateStats(this.charIndex, this.errors, this.maxTime, this.timeLeft);
 
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        modal.querySelector('div').classList.add('modal-animation');
+        updateModalContent(stats, {
+            ...finalScore,
+            corrects: this.corrects,
+            errors: this.errors
+        });
+        
+        showModal();
     }
+
     startTyping() {
         if (!this.elements.textBox || !this.elements.inputBox) return;
 
@@ -137,7 +142,6 @@ export class TypingGame {
                 characters[this.charIndex].classList.add("cursor-typing");
             }
 
-            // Vérifie si le texte est terminé
             if (this.charIndex === characters.length) {
                 this.handleTextCompletion();
             }
@@ -148,40 +152,27 @@ export class TypingGame {
             clearInterval(this.timer);
         }
     }
-  handleTextCompletion() {
+
+    handleTextCompletion() {
         clearInterval(this.timer);
         
         if (this.errors === 0) {
-            // Pas d'erreurs : affiche un message de félicitations et passe au texte suivant
-            const modal = document.getElementById('score-modal');
-            const modalTitle = modal.querySelector('h2');
-            modalTitle.textContent = 'Parfait ! Passons au texte suivant';
-            
-            this.showScoreModal();
-            
-            // Change le texte du bouton
-            const retryBtn = document.getElementById('retry-btn');
-            if (retryBtn) {
-                retryBtn.textContent = 'Texte suivant';
-            }
+            updateModalTitle('Parfait ! Passons au texte suivant');
+            updateRetryButton('Texte suivant');
         } else {
-            // Avec erreurs : affiche le score normal
-            const modal = document.getElementById('score-modal');
-            const modalTitle = modal.querySelector('h2');
-            modalTitle.textContent = 'Texte terminé !';
-            
-            this.showScoreModal();
+            updateModalTitle('Texte terminé !');
         }
+        
+        this.showScoreModal();
     }
+
     startTimer() {
         if (this.timeLeft > 0) {
             this.timeLeft--;
             this.updateDisplay();
             
             if (this.timeLeft === 0) {
-                const modal = document.getElementById('score-modal');
-                const modalTitle = modal.querySelector('h2');
-                modalTitle.textContent = 'Temps écoulé !';
+                updateModalTitle('Temps écoulé !');
                 this.showScoreModal();
             }
         } else {
