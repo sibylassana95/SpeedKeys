@@ -24,7 +24,7 @@ git clone https://github.com/sibylassana95/SpeedKeys.git
 
 2. Installez les dépendances :
 ```bash
-cd velocitytype.fr
+cd SpeedKeys
 npm install
 ```
 
