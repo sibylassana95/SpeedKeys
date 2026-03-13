@@ -2,13 +2,19 @@
 const SELECTORS = {
     textBox: ".text-box p",
     inputBox: ".input-box",
-    errorTag: "#error span",
-    timerTag: "#timer span",
-    wpmTag: "#wpm span",
-    correctTag: "#correct span",
-    cpmTag: "#cpm span",
+    errorTag: "#error .text-xl",
+    timerTag: "#timer .text-xl",
+    wpmTag: "#wpm .text-xl",
+    correctTag: "#correct .text-xl",
+    cpmTag: "#cpm .text-xl",
     restartBtn: ".restart",
-    themeToggle: "#theme-toggle"
+    themeToggle: "#theme-toggle",
+    modeTest: "#mode-test",
+    modeLearn: "#mode-learn",
+    layoutBtns: ".layout-btn",
+    timeBtns: ".time-btn",
+    keyboardContainer: "#keyboard-container",
+    learningHeader: "#learning-header"
 };
 
 // Cache des éléments DOM

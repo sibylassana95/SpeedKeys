@@ -24,10 +24,12 @@ export function calculateFinalScore({
     }
 
     // Vitesse de frappe (WPM)
-    const wpm = Math.round((((charIndex - errors) / 5) / (timeSpent / 60)));
+    const timeSpentMin = (timeSpent || 1) / 60;
+    const wpm = Math.max(0, Math.round(((charIndex / 5) / timeSpentMin)));
 
     // Précision (%)
-    const accuracy = Math.round((corrects / (corrects + errors)) * 100) || 0;
+    const totalTyped = corrects + errors;
+    const accuracy = totalTyped > 0 ? Math.round((corrects / totalTyped) * 100) : 0;
 
     // Progression (% du texte complété)
     const completion = Math.round((charIndex / textLength) * 100);
@@ -35,23 +37,19 @@ export function calculateFinalScore({
     // Score de base (sur 100)
     let baseScore = Math.round((wpm * 0.4) + (accuracy * 0.4) + (completion * 0.2));
 
-    // Bonus de temps
-    const timeBonus = Math.round((totalTime - timeSpent) * 0.5);
-
-    // Bonus de précision
-    const accuracyBonus = accuracy >= 98 ? 20 : accuracy >= 95 ? 10 : 0;
-
-
-   
-   
+    // Grade calculation
+    let grade = 'E';
+    if (wpm >= 80 && accuracy >= 98) grade = 'S';
+    else if (wpm >= 60 && accuracy >= 95) grade = 'A';
+    else if (wpm >= 40 && accuracy >= 90) grade = 'B';
+    else if (wpm >= 20 && accuracy >= 80) grade = 'C';
+    else if (charIndex > 0) grade = 'D';
 
     return {
         wpm,
         accuracy,
         completion,
-        timeBonus,
-        accuracyBonus
+        grade,
+        finalScore: baseScore
     };
 }
-
-
