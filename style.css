@@ -13,9 +13,49 @@
   }
 
   .stat-box {
-    @apply flex items-center justify-center text-gray-600 dark:text-gray-300 font-semibold bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg transition-colors duration-200;
+    @apply flex flex-col items-center justify-center text-gray-600 dark:text-gray-300 font-semibold bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl transition-all duration-200;
+  }
+
+  .nav-link {
+    @apply px-6 py-2 rounded-lg font-medium transition-all duration-200 text-gray-500 dark:text-gray-400;
+  }
+
+  .nav-link.active {
+    @apply bg-white dark:bg-gray-700 text-primary shadow-sm;
+  }
+
+  .layout-btn, .time-btn {
+    @apply px-4 py-1.5 rounded-md transition-all duration-200 text-gray-500 dark:text-gray-400 font-medium;
+  }
+
+  .layout-btn.active, .time-btn.active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  /* Keyboard Styles */
+  .key {
+    @apply flex items-center justify-center bg-white dark:bg-gray-700 border-b-4 border-gray-200 dark:border-gray-900 rounded-lg text-gray-600 dark:text-gray-300 font-medium transition-all duration-75 select-none;
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .key.active {
+    @apply border-b-0 translate-y-1 bg-primary text-white border-primary;
+  }
+
+  .key-wide {
+    width: 6rem;
+  }
+
+  .key-extra-wide {
+    width: 8rem;
+  }
+
+  .key-space {
+    width: 20rem;
   }
 }
+
 
 /* Animation pour la modal */
 @keyframes modalFadeIn {
@@ -38,4 +78,18 @@
 }
 .modal-animation {
   animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+/* Fix theme toggle icons showing both */
+.sun-icon {
+  display: none !important;
+}
+.dark .sun-icon {
+  display: inline-block !important;
+}
+.dark .moon-icon {
+  display: none !important;
+}
+.moon-icon {
+  display: inline-block !important;
 }

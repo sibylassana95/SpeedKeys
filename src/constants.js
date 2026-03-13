@@ -22,3 +22,47 @@ export const PARAGRAPHS = [
     "La blockchain offre une nouvelle manière sécurisée et transparente de gérer les transactions et les données.",
     "Le big data permet de traiter et d'analyser de grandes quantités de données pour en extraire des informations précieuses.",
 ];
+
+export const KEYBOARD_LAYOUTS = {
+    azerty: [
+        ["²", "&", "é", '"', "'", "(", "-", "è", "_", "ç", "à", ")", "=", "Backspace"],
+        ["Tab", "a", "z", "e", "r", "t", "y", "u", "i", "o", "p", "^", "$"],
+        ["CapsLock", "q", "s", "d", "f", "g", "h", "j", "k", "l", "m", "ù", "*", "Enter"],
+        ["Shift", "<", "w", "x", "c", "v", "b", "n", ",", ";", ":", "!", "Shift"],
+        ["Space"]
+    ],
+    qwerty: [
+        ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace"],
+        ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
+        ["CapsLock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "Enter"],
+        ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "Shift"],
+        ["Space"]
+    ]
+};
+
+export const LEARNING_EXERCISES = [
+    {
+        title: "Niveau 1 : La rangée du milieu (Main gauche)",
+        text: "qsdf qsdf qsdf qsdf"
+    },
+    {
+        title: "Niveau 2 : La rangée du milieu (Main droite)",
+        text: "jklm jklm jklm jklm"
+    },
+    {
+        title: "Niveau 3 : La rangée du milieu complète",
+        text: "qsdfghjklm qsdfghjklm"
+    },
+    {
+        title: "Niveau 4 : La rangée du haut (Main gauche)",
+        text: "azerty azerty azerty"
+    },
+    {
+        title: "Niveau 5 : La rangée du haut (Main droite)",
+        text: "uiop uiop uiop uiop"
+    },
+    {
+        title: "Niveau 6 : Mots simples",
+        text: "le la les de des du un une"
+    }
+];

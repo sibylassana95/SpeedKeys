@@ -16,46 +16,95 @@
 <body class="min-h-screen font-['Poppins'] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 transition-colors duration-200">
     <div class="min-h-screen">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col min-h-screen">
-            <div class="flex justify-between items-center py-8">
-                <h1 class="text-2xl md:text-3xl font-bold text-primary hover:text-primary/80 transition-colors duration-200">
+            <div class="flex flex-col md:flex-row justify-between items-center py-8 gap-6">
+                <h1 class="text-3xl font-bold text-primary hover:text-primary/80 transition-colors duration-200">
                     SpeedKeys<span class="text-gray-400">.</span>
                 </h1>
-                <button id="theme-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
-                    <i class="fa-solid fa-moon dark:hidden"></i>
-                    <i class="fa-solid fa-sun hidden dark:block"></i>
-                </button>
+
+                <nav class="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
+                    <button id="mode-test" class="nav-link active">Test</button>
+                    <button id="mode-learn" class="nav-link">Apprendre</button>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="p-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors focus:outline-none">
+                        <i class="fa-solid fa-moon text-xl moon-icon"></i>
+                        <i class="fa-solid fa-sun text-xl sun-icon"></i>
+                    </button>
+                </div>
             </div>
             
-            <div class="flex-1 flex flex-col items-center justify-center py-8">
-                <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-transform duration-200">
-                    <input autofocus type="text" class="input-box opacity-0 absolute z-[-1]">
-                    <div class="text-box mb-8 bg-gray-50 dark:bg-gray-700/50 p-6 rounded-xl">
-                        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed"></p>
+            <div class="flex-1 flex flex-col items-center justify-center py-4 space-y-8">
+                <!-- Settings Panel -->
+                <div class="w-full max-w-4xl flex flex-wrap justify-center gap-6 text-sm">
+                    <div class="flex items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm">
+                        <span class="px-3 text-gray-500 dark:text-gray-400 font-medium">Clavier:</span>
+                        <button class="layout-btn active" data-layout="azerty">AZERTY</button>
+                        <button class="layout-btn" data-layout="qwerty">QWERTY</button>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div class="flex items-center bg-white dark:bg-gray-800 rounded-lg p-1 shadow-sm">
+                        <span class="px-3 text-gray-500 dark:text-gray-400 font-medium">Temps:</span>
+                        <button class="time-btn" data-time="15">15s</button>
+                        <button class="time-btn" data-time="30">30s</button>
+                        <button class="time-btn active" data-time="60">60s</button>
+                    </div>
+                </div>
+
+                <div class="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform transition-all duration-200">
+                    <div id="learning-header" class="hidden mb-6 text-center">
+                        <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Niveau 1 : La rangée du milieu</h2>
+                    </div>
+
+                    <input autofocus type="text" class="input-box opacity-0 absolute z-[-1]">
+                    <div class="text-box mb-8 bg-gray-50 dark:bg-gray-700/30 p-8 rounded-2xl border-2 border-transparent focus-within:border-primary/20 transition-all">
+                        <p class="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 leading-relaxed font-mono tracking-wide"></p>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                         <div id="timer" class="stat-box">
-                            <i class="fa-regular fa-clock mr-2"></i>
-                            <span>60</span>s
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1">Temps</span>
+                            <div class="flex items-center justify-center">
+                                <i class="fa-regular fa-clock mr-2 text-primary"></i>
+                                <span class="text-xl">60</span>s
+                            </div>
                         </div>
                         <div id="wpm" class="stat-box">
-                            <i class="fa-solid fa-gauge-high mr-2"></i>
-                            <span>0</span> MPM
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1">Vitesse</span>
+                            <div class="flex items-center justify-center">
+                                <i class="fa-solid fa-gauge-high mr-2 text-primary"></i>
+                                <span class="text-xl">0</span> <span class="text-sm ml-1">MPM</span>
+                            </div>
                         </div>
                         <div id="cpm" class="stat-box">
-                            <i class="fa-solid fa-keyboard mr-2"></i>
-                            <span>0</span> CPM
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1">Caractères</span>
+                            <div class="flex items-center justify-center">
+                                <i class="fa-solid fa-keyboard mr-2 text-primary"></i>
+                                <span class="text-xl">0</span> <span class="text-sm ml-1">CPM</span>
+                            </div>
                         </div>
-                        <div id="error" class="stat-box">
-                            <i class="fa-solid fa-xmark mr-2"></i>
-                            <span>0</span>
+                        <div id="error" class="stat-box border-b-4 border-red-500/20">
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1">Erreurs</span>
+                            <div class="flex items-center justify-center">
+                                <i class="fa-solid fa-xmark mr-2 text-red-500"></i>
+                                <span class="text-xl">0</span>
+                            </div>
                         </div>
-                        <div id="correct" class="stat-box">
-                            <i class="fa-solid fa-check mr-2"></i>
-                            <span>0</span>
+                        <div id="correct" class="stat-box border-b-4 border-green-500/20">
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1">Corrects</span>
+                            <div class="flex items-center justify-center">
+                                <i class="fa-solid fa-check mr-2 text-green-500"></i>
+                                <span class="text-xl">0</span>
+                            </div>
                         </div>
-                        <button class="restart stat-box hover:bg-primary/10 active:bg-primary/20">
-                            <i class="fa-solid fa-rotate-right text-xl"></i>
+                        <button class="restart stat-box hover:bg-primary/10 active:scale-95 transition-all group">
+                            <span class="text-xs text-gray-400 block uppercase tracking-wider mb-1 group-hover:text-primary">Restart</span>
+                            <i class="fa-solid fa-rotate-right text-2xl text-gray-400 group-hover:text-primary group-hover:rotate-180 transition-all duration-500"></i>
                         </button>
+                    </div>
+
+                    <!-- Keyboard Container -->
+                    <div id="keyboard-container" class="mt-8 transition-opacity duration-300">
+                        <!-- Virtual Keyboard will be rendered here -->
                     </div>
                 </div>
             </div>
